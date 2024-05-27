@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="Workspace">
+		<Project filename="ASN2/Assignment 2.cbp" />
+		<Project filename="ASN2/tests/TimeStampTest/TimeStampTest.cbp" />
+		<Project filename="ASN2/tests/TimeTest/TimeTest.cbp" />
+		<Project filename="ASN2/tests/DateTest/DateTest.cbp" />
+		<Project filename="ASN2/tests/DayTest/DayTest.cbp" />
+		<Project filename="ASN2/tests/MonthTest/MonthTest.cbp" />
+		<Project filename="ASN2/tests/YearTest/YearTest.cbp" />
+		<Project filename="ASN2/tests/VectorTest/VectorTest.cbp" />
+		<Project filename="ASN2/tests/MapTest/MapTest.cbp" />
+		<Project filename="ASN2/tests/WeatherRecTypeTest/WindRecTypeTest.cbp" />
+		<Project filename="ASN2/tests/BinaryTreeTest/BinaryTreeTest.cbp" />
+		<Project filename="ASN2/tests/BinarySearchTreeTest/BinarySearchTreeTest.cbp" />
+	</Workspace>
+</CodeBlocks_workspace_file>

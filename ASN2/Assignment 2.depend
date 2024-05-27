@@ -1,0 +1,219 @@
+# depslib dependency file v1.0
+1712992402 source:e:\uni\year 2\semester 1\ict283\assignment 1\src\date.cpp
+	"Date.h"
+
+1713396408 e:\uni\year 2\semester 1\ict283\assignment 1\src\date.h
+	"Day.h"
+	"Month.h"
+	"Year.h"
+
+1713405966 source:e:\uni\year 2\semester 1\ict283\assignment 1\src\main.cpp
+	"./WeatherLogType.h"
+	"./FileParse.h"
+	"./Menu.h"
+	"./Sort.h"
+	<iostream>
+	<fstream>
+
+1713403404 e:\uni\year 2\semester 1\ict283\assignment 1\src\vector.h
+
+1713396852 e:\uni\year 2\semester 1\ict283\assignment 1\src\time.h
+
+1713396966 source:e:\uni\year 2\semester 1\ict283\assignment 1\src\time.cpp
+	"./Time.h"
+
+1713332072 source:e:\uni\year 2\semester 1\ict283\assignment 1\src\timeio.cpp
+	"./TimeIO.h"
+	<sstream>
+
+1713059168 e:\uni\year 2\semester 1\ict283\assignment 1\src\timeio.h
+	"./Time.h"
+	<iostream>
+
+1713166192 source:e:\uni\year 2\semester 1\ict283\assignment 1\src\windrectype.cpp
+	"WindRecType.h"
+
+1713166092 e:\uni\year 2\semester 1\ict283\assignment 1\src\windrectype.h
+	"./Date.h"
+	"./Time.h"
+
+1711360792 source:e:\uni\year 2\semester 1\ict283\assignment 1\src\maths.cpp
+	"./maths.h"
+	<math.h>
+
+1712581048 e:\uni\year 2\semester 1\ict283\assignment 1\src\maths.h
+	<stddef.h>
+
+1713164994 source:e:\uni\year 2\semester 1\ict283\assignment 1\src\dateio.cpp
+	"./DateIO.h"
+	"./DayIO.h"
+	"./MonthIO.h"
+	"./YearIO.h"
+	<sstream>
+	<string>
+
+1713058980 e:\uni\year 2\semester 1\ict283\assignment 1\src\dateio.h
+	"./Date.h"
+	<iostream>
+
+1713404232 source:e:\uni\year 2\semester 1\ict283\assignment 1\src\fileparse.cpp
+	"FileParse.h"
+	"WeatherRecType.h"
+	"DateIO.h"
+	"MonthIO.h"
+	"TimeIO.h"
+	"Menu.h"
+	"maths.h"
+	<fstream>
+	<sstream>
+
+1713323324 e:\uni\year 2\semester 1\ict283\assignment 1\src\fileparse.h
+	"./WeatherLogType.h"
+	<iostream>
+
+1712633476 e:\uni\year 2\semester 1\ict283\assignment 1\src\vector.cpp
+
+1712581652 source:d:\uni\year 2\semester 1\ict283\assignment 1\src\date.cpp
+	"Date.h"
+
+1712581674 d:\uni\year 2\semester 1\ict283\assignment 1\src\date.h
+
+1712581656 source:d:\uni\year 2\semester 1\ict283\assignment 1\src\dateio.cpp
+	"./DateIO.h"
+	<sstream>
+	<string>
+
+1712619840 d:\uni\year 2\semester 1\ict283\assignment 1\src\dateio.h
+	"./Date.h"
+	<iostream>
+
+1712620282 source:d:\uni\year 2\semester 1\ict283\assignment 1\src\fileparse.cpp
+	"FileParse.h"
+	"DateIO.h"
+	"TimeIO.h"
+	<sstream>
+
+1712619576 d:\uni\year 2\semester 1\ict283\assignment 1\src\fileparse.h
+	"./WindRecType.h"
+	<iostream>
+
+1712618898 d:\uni\year 2\semester 1\ict283\assignment 1\src\windrectype.h
+	"./Date.h"
+	"./Time.h"
+	"./Vector.h"
+
+1712580880 d:\uni\year 2\semester 1\ict283\assignment 1\src\time.h
+
+1712636216 d:\uni\year 2\semester 1\ict283\assignment 1\src\vector.h
+
+1712581698 d:\uni\year 2\semester 1\ict283\assignment 1\src\timeio.h
+	"./Time.h"
+	<iostream>
+
+1711360792 source:d:\uni\year 2\semester 1\ict283\assignment 1\src\maths.cpp
+	"./maths.h"
+	<math.h>
+
+1712581048 d:\uni\year 2\semester 1\ict283\assignment 1\src\maths.h
+	<stddef.h>
+
+1711440460 source:d:\uni\year 2\semester 1\ict283\assignment 1\src\time.cpp
+	"./Time.h"
+
+1712568160 source:d:\uni\year 2\semester 1\ict283\assignment 1\src\timeio.cpp
+	"./TimeIO.h"
+	<sstream>
+
+1711532886 source:d:\uni\year 2\semester 1\ict283\assignment 1\src\windrectype.cpp
+	"WindRecType.h"
+
+1712819962 source:e:\uni\year 2\semester 1\ict283\assignment 1\src\windrectypeio.cpp
+	"WindRecType.h"
+
+1713396360 e:\uni\year 2\semester 1\ict283\assignment 1\src\month.h
+
+1713314700 source:e:\uni\year 2\semester 1\ict283\assignment 1\src\monthio.cpp
+	"./MonthIO.h"
+	<sstream>
+	<string>
+
+1713399862 source:e:\uni\year 2\semester 1\ict283\assignment 1\src\menu.cpp
+	"Menu.h"
+	"FileParse.h"
+	"DateIO.h"
+	"MonthIO.h"
+	"YearIO.h"
+	"maths.h"
+	<iostream>
+	<sstream>
+
+1713323786 e:\uni\year 2\semester 1\ict283\assignment 1\src\menu.h
+	"WeatherLogType.h"
+	"Date.h"
+	<iostream>
+
+1713059146 e:\uni\year 2\semester 1\ict283\assignment 1\src\monthio.h
+	"./Month.h"
+	<iostream>
+
+1713396336 source:e:\uni\year 2\semester 1\ict283\assignment 1\src\month.cpp
+	"Month.h"
+
+1712832362 source:e:\uni\year 2\semester 1\ict283\assignment 1\src\windrecmath.cpp
+
+1712826012 e:\uni\year 2\semester 1\ict283\assignment 1\src\windrecmath.h
+	"WindRecType.h"
+
+1713164784 source:e:\uni\year 2\semester 1\ict283\assignment 1\src\yeario.cpp
+	"./YearIO.h"
+	<sstream>
+	<string>
+
+1713054852 e:\uni\year 2\semester 1\ict283\assignment 1\src\year.h
+
+1713140552 source:e:\uni\year 2\semester 1\ict283\assignment 1\src\year.cpp
+	"Year.h"
+
+1713059246 e:\uni\year 2\semester 1\ict283\assignment 1\src\yeario.h
+	"./Year.h"
+	<iostream>
+
+1713396324 e:\uni\year 2\semester 1\ict283\assignment 1\src\day.h
+
+1713059052 e:\uni\year 2\semester 1\ict283\assignment 1\src\dayio.h
+	"./Day.h"
+	<iostream>
+
+1713396294 source:e:\uni\year 2\semester 1\ict283\assignment 1\src\day.cpp
+	"Day.h"
+
+1713164774 source:e:\uni\year 2\semester 1\ict283\assignment 1\src\dayio.cpp
+	"./DayIO.h"
+	<sstream>
+	<string>
+
+1713059500 e:\uni\year 2\semester 1\ict283\assignment 1\src\windlogtype.h
+	"WindRecType.h"
+	"./Vector.h"
+
+1713330362 e:\uni\year 2\semester 1\ict283\assignment 1\src\sort.h
+	"WeatherLogType.h"
+
+1713332076 source:e:\uni\year 2\semester 1\ict283\assignment 1\src\sort.cpp
+	"Sort.h"
+	"DateIO.h"
+
+1713263252 e:\uni\year 2\semester 1\ict283\assignment 1\src\weatherlogtype.h
+	"WeatherRecType.h"
+	"./Vector.h"
+
+1713263258 e:\uni\year 2\semester 1\ict283\assignment 1\src\weatherrectype.h
+	"./Date.h"
+	"./Time.h"
+
+1713267048 source:e:\uni\year 2\semester 1\ict283\assignment 1\src\weatherrectype.cpp
+	"WeatherRecType.h"
+
+1713264088 source:e:\uni\year 2\semester 1\ict283\assignment 1\src\weatherrectypeio.cpp
+	"WeatherRecType.h"
+
