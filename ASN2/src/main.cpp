@@ -3,31 +3,31 @@
 #include "./menu/Menu.h"
 #include "./FileParse.h"
 
-int main() {
+/////////////////////////////////////////////////////////////////////////////////
+//                                                                             //
+// The way that the new WeatherLogType works is like the following diagram:    //
+//                                                                             //
+// [MAP]            2015-------------2016-------------2017                     //
+// [BST]             6                4                9                       //
+//                 /    \           /    \            /  \                     //
+//                5      7         2      5          7   12                    //
+//                                                                             //
+//                                                                             //
+// We're the year has at most 12 records, all refering to one month.           //
+// This means that we can have a VERY fast insertion / assignment              //
+// operation where the first                                                   //
+//                                                                             //
+// The map has a best case of O(1) with a worse case O(n)                      //
+// The bst has a best case of O(1) with worse case O(log n)                    //
+// Therefore our best case is O(1) with a worse case nlog(m)                   //
+//                                                                             //
+// where n is elements in map and m is elements in bst.                        //
+// We could potentially improve this by using an unordered_map rather          //
+// than a normal map.                                                          //
+//                                                                             //
+/////////////////////////////////////////////////////////////////////////////////
 
-    /////////////////////////////////////////////////////////////////////////////////
-    //                                                                             //
-    // The way that the new WeatherLogType works is like the following diagram:    //
-    //                                                                             //
-    // [MAP]            2015-------------2016-------------2017                     //
-    // [BST]             6                4                9                       //
-    //                 /    \           /    \            /  \                     //
-    //                5      7         2      5          7   12                    //
-    //                                                                             //
-    //                                                                             //
-    // We're the year has at most 12 records, all refering to one month.           //
-    // This means that we can have a VERY fast insertion / assignment              //
-    // operation where the first                                                   //
-    //                                                                             //
-    // The map has a best case of O(1) with a worse case O(n)                      //
-    // The bst has a best case of O(1) with worse case O(log n)                    //
-    // Therefore our best case is O(1) with a worse case nlog(m)                   //
-    //                                                                             //
-    // where n is elements in map and m is elements in bst.                        //
-    // We could potentially improve this by using an unordered_map rather          //
-    // than a normal map.                                                          //
-    //                                                                             //
-    /////////////////////////////////////////////////////////////////////////////////
+int main() {
 
     // Show Author, done so that we know the program has initiated
     asn2::menu::showAuthor();
@@ -56,10 +56,10 @@ int main() {
     // Make a Map with a BST
     WeatherCalender calender = asn2::weather::calenderise(weather_data);
 
-    // What do we do with "weather_data???"
-    // please refer to the video for documentation reguarding this matter:
-    //    https://youtu.be/dyIilW_eBjc
-    weather_data = WeatherLogType();
+        // What do we do with "weather_data???"
+        // please refer to the video for documentation reguarding this matter:
+        //    https://youtu.be/dyIilW_eBjc
+        weather_data = WeatherLogType();
 
     //////////////////////////////////////////////////////////////
     //                                                          //

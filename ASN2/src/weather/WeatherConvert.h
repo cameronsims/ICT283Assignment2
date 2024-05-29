@@ -36,7 +36,7 @@ namespace weather {
          * @param p_calender The calendar we're reading
          * @param p_year The we're reading from
          */
-    void read_month(const Map<Month, Vector<WeatherRecord>> p_map, WeatherCalender& p_calender, const Year& p_year);
+    void read_month(const Map<Month, WeatherVector>& p_map, WeatherCalender& p_calender, const Year& p_year);
 
         /**
         * @author Cameron Sims
@@ -58,7 +58,21 @@ namespace weather {
         * @param p_records The records we're going to be "calenderising"
         * @returns WeatherResults which is a consolidated amount of several
         */
-    WeatherResults consolidate(const Vector<WeatherRecord>& p_records);
+    WeatherResults consolidate(const WeatherVector& p_records);
+
+        /**
+        * @author Cameron Sims
+        * @date 28/05/2024
+        *
+        * @fn merge
+        * @param p_result The result we're merging into
+        * @param p_month The month the result was taken on
+        * @param p_speeds A vector containing speeds
+        * @param p_temper A vector containing temperatures
+        * @param p_solarRads Solar Radiations
+        * @brief Uses the stats routines and merges it into the vector
+        */
+    void merge(WeatherResults& p_result, const Month& p_month, const Vector<float>& p_speeds, const Vector<float>& p_temper, float p_solarRads);
 
 }
 }

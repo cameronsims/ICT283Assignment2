@@ -29,11 +29,11 @@
 // I HATE C I HATE C I HATE C I HATE C I HATE C I HATE C I HATE C I HATE C I HATE C I HATE C I HATE C I HATE C
 // I HATE C I HATE C I HATE C I HATE C I HATE C I HATE C I HATE C I HATE C I HATE C I HATE C I HATE C I HATE C
 
-void asn2::weather::read_month(const Map<Month, Vector<WeatherRecord>> p_map, WeatherCalender& p_calender, const Year& p_year) {
+void asn2::weather::read_month(const Map<Month, WeatherVector>& p_map, WeatherCalender& p_calender, const Year& p_year) {
     // For all months
-    for (MapIteratorConst<const Month, Vector<WeatherRecord>> it = p_map.begin(); it != p_map.end(); it++) {
+    for (MapIteratorConst<const Month, WeatherVector> it = p_map.begin(); it != p_map.end(); it++) {
         // The vector we're reading
-        const Vector<WeatherRecord>& recs = it->second;
+        const WeatherVector& recs = it->second;
         // Compile the vector
         WeatherResults result = asn2::weather::consolidate(recs);
         try {
@@ -57,12 +57,12 @@ WeatherCalender asn2::weather::calenderise(const WeatherLogType& p_records) {
 
     // Loop ALL years in the record
     try {
-        for (MapIteratorConst<const Year, Map<Month, Vector<WeatherRecord>>> yit = p_records.begin(); yit != p_records.end(); yit++) {
+        for (MapIteratorConst<const Year, Map<Month, WeatherVector>> yit = p_records.begin(); yit != p_records.end(); yit++) {
             // We now need to iterate all months over all years...
             const Year& y = yit->first;
 
             // This is the second map we are iterating
-            const Map<Month, Vector<WeatherRecord>>& mp = yit->second;
+            const Map<Month, WeatherVector>& mp = yit->second;
 
             // For all months
             read_month(mp, calender, y);
@@ -165,27 +165,31 @@ asn2::weather::WeatherResults asn2::weather::consolidate(const WeatherVector& p_
 
     // If vector is bigger than size
     if (n > 0) {
-        // Get elemetns into result
-        result.month = p_records[0].timestamp.date.getMonth();
-        result.solarRadiation = ((solarRads / 6.0f) / 1000.0f);
-
-        // If we recorded speeds
-        if (speeds.size() > 0) {
-            result.speed = new WeatherResultStat;
-            // Convert to km/h
-            result.speed->mean  = asn2::math::mean                 (speeds) * (3.6f);
-            result.speed->stdev = asn2::math::standardDeviation    (speeds);
-            result.speed->mad   = asn2::math::meanAbsoluteDeviation(speeds);
-        }
-
-        // If we recorded temperature
-        if (temper.size() > 0) {
-            result.temperature = new WeatherResultStat;
-            result.temperature->mean   = asn2::math::mean                 (temper);
-            result.temperature->stdev  = asn2::math::standardDeviation    (temper);
-            result.temperature->mad    = asn2::math::meanAbsoluteDeviation(temper);
-        }
+        merge(result, p_records[0].timestamp.date.getMonth(), speeds, temper, solarRads);
     }
 
     return result;
+}
+
+void asn2::weather::merge(WeatherResults& p_result, const Month& p_month, const Vector<float>& p_speeds, const Vector<float>& p_temper, float p_solarRads) {
+    // Get elemetns into result
+    p_result.month = p_month.getMonth();
+    p_result.solarRadiation = ((p_solarRads / 6.0f) / 1000.0f);
+
+    // If we recorded speeds
+    if (p_speeds.size() > 0) {
+        p_result.speed = new WeatherResultStat;
+        // Convert to km/h
+        p_result.speed->mean  = asn2::math::mean                 (p_speeds) * (3.6f);
+        p_result.speed->stdev = asn2::math::standardDeviation    (p_speeds);
+        p_result.speed->mad   = asn2::math::meanAbsoluteDeviation(p_speeds);
+    }
+
+    // If we recorded temperature
+    if (p_temper.size() > 0) {
+        p_result.temperature = new WeatherResultStat;
+        p_result.temperature->mean   = asn2::math::mean                 (p_temper);
+        p_result.temperature->stdev  = asn2::math::standardDeviation    (p_temper);
+        p_result.temperature->mad    = asn2::math::meanAbsoluteDeviation(p_temper);
+    }
 }

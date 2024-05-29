@@ -40,7 +40,7 @@ headerVector asn2::file::load_header(std::istream& p_in) {
     return header;
 }
 
-headerIDMap asn2::file::load_header_map(const headerVector& p_headers) {
+asn2::file::headerIDMap asn2::file::load_header_map(const headerVector& p_headers) {
     // Create the map
     headerIDMap m;
 
@@ -79,35 +79,128 @@ headerIDMap asn2::file::load_header_map(const headerVector& p_headers) {
     return m;
 }
 
-void asn2::file::load_line(std::istream& p_in, const headerVector& p_header, const headerIDMap& p_hID, WeatherLogType& p_records) {
-    // We assume we have a line
-    std::string cell;
-    std::stringstream cs;
+bool asn2::file::has_content(const std::string& p_str) {
+    /*// The Stringstream we're using to place back in
+    std::stringstream ss(p_str);
+    // The new string
+    std::string str;
+    ss >> str;
 
+    // If it is bigger than zero
+    return (str.size() > 0);*/
+    for (size_t i = 0; i < p_str.size(); i++) {
+        if (p_str[i] != ' ') {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+int asn2::file::load_cell(std::istream& p_in, CSVHeaderID p_hID, asn2::weather::WeatherRecord& p_record) {
+    switch (p_hID) {
+        // If the timestamp is what we're looking for
+      case CSVHeaderID::TIMESTAMP: {
+        // Assign
+        Date d;
+        Time t;
+
+        // Get Date
+        std::string str;
+        p_in >> str;
+        std::stringstream ss(str);
+        ss >> d;
+
+        // Get Time
+        p_in >> str;
+        ss = std::stringstream(str);
+        ss >> t;
+
+        // Assign to the record
+        p_record.timestamp.date = d;
+        p_record.timestamp.time = t;
+
+        // Set this so that we can actually assign the time
+        return 2;
+      }
+
+      // If the speed
+      case CSVHeaderID::WIND_SPEED: {
+        // The speed of the wind
+        float wind_speed = 0.0f;
+        // Get the speed
+        p_in >> wind_speed;
+        // If the value is negative
+        if (wind_speed < 0) {
+            // Tell user
+            std::cout << "Error: Negative Wind Speed detected\n";
+        }
+        // Assign to record
+        p_record.speed = new float(wind_speed);
+        return 1;
+      }
+
+        // If the temperature
+      case CSVHeaderID::AMBIENT_TEMPERATURE: {
+        // The temperature
+        float temp = 0.0f;
+        p_in >> temp;
+        // if lower than abs zero
+        if (temp < -273.15) {
+            std::cout << "Error: Temperature lower than absolute zero detected!\n";
+        }
+        // Assign to record
+        p_record.airTemp = new float(temp);
+        return 1;
+      }
+
+      // If the solar radiations
+      case CSVHeaderID::SOLAR_RADIATION: {
+        // Get the solar radiation
+        int solrad = 0;
+        p_in >> solrad;
+
+        // If lower than 0
+        if (solrad < 0) {
+            std::cout << "Error: Negative Solar Radiation detected!\n";
+        }
+        // Assign to record
+        p_record.solarRad = new int(solrad);
+        return 1;
+      }
+
+      case CSVHeaderID::DEFAULT:
+      default: {
+        // Ignore
+        return 0;
+      }
+    }
+}
+
+void asn2::file::load_line(std::istream& p_in, const headerVector& p_header, const headerIDMap& p_hID, WeatherLogType& p_records, std::string& p_cell, std::stringstream& p_cs, asn2::weather::WeatherRecord& p_record) {
     // The column we're at
     size_t i = 0;
 
     // Boolean to detect if we got a date
     bool hasTime = false;
 
-    // The weather record we're using
-    asn2::weather::WeatherRecord record;
-
     // While we're not at the end of the line
-    while (!p_in.eof() || i < p_header.size()) {
+    while (!p_in.eof()) {
         // Get a cell
-        std::getline(p_in, cell, ',');
-
-        // Create a cellstream
-        cs = std::stringstream(cell);
+        std::getline(p_in, p_cell, ',');
 
         // Check if there is anything in the cellstream
 
         // If there is an invalid value
-        if (has_content(cell) && cell != "NA" && cell != "N/A") {
+        if (has_content(p_cell) && p_cell != "NA") {
+            // Create a cellstream
+            p_cs = std::stringstream(p_cell);
+
             // Do a switch case statement and a try-catch
             try {
-                load_cell(cs, p_header, p_hID, record, i, hasTime);
+                if (load_cell(p_cs, p_hID[p_header[i]], p_record) == 2) {
+                    hasTime = true;
+                }
             }
             // If we have exceeded the vector size
             catch (const VectorError& e) {
@@ -142,109 +235,29 @@ void asn2::file::load_line(std::istream& p_in, const headerVector& p_header, con
 
         // Next column
         i++;
+
+        // Check if there is any more values, if not return
+        if (i >= p_header.size()) {
+            break;
+        }
     }
 
     // Assign into map IF we have a date/time
     if (hasTime) {
         // Assign to map
-        Date& date = record.timestamp.date;
-        p_records[ date.getYear() ][ date.getMonth() ].push(record);
+        Date& date = p_record.timestamp.date;
+        p_records[ date.getYear() ][ date.getMonth() ].push(p_record);
     }
-}
-
-void asn2::file::load_cell(std::istream& p_in, const headerVector& p_header, const headerIDMap& p_hID, asn2::weather::WeatherRecord& p_record, int i, bool& hasTime) {
-    switch (p_hID[p_header[i]]) {
-        // If the timestamp is what we're looking for
-      case CSVHeaderID::TIMESTAMP: {
-        // Assign
-        Date d;
-        Time t;
-
-        std::string dstr, tstr;
-        p_in >> dstr >> tstr;
-
-        std::stringstream ss(dstr);
-        ss >> d;
-        ss = std::stringstream(tstr);
-        ss >> t;
-
-        // Assign to the record
-        p_record.timestamp.date = d;
-        p_record.timestamp.time = t;
-
-        // Set this so that we can actually assign the time
-        hasTime = true;
-        break;
-      }
-
-      // If the speed
-      case CSVHeaderID::WIND_SPEED: {
-        // The speed of the wind
-        float wind_speed = 0.0f;
-        // Get the speed
-        p_in >> wind_speed;
-        // If the value is negative
-        if (wind_speed < 0) {
-            // Tell user
-            std::cout << "Error: Negative Wind Speed detected\n";
-        }
-        // Assign to record
-        p_record.speed = new float(wind_speed);
-        break;
-      }
-
-        // If the temperature
-      case CSVHeaderID::AMBIENT_TEMPERATURE: {
-        // The temperature
-        float temp = 0.0f;
-        p_in >> temp;
-        // if lower than abs zero
-        if (temp < -273.15) {
-            std::cout << "Error: Temperature lower than absolute zero detected!\n";
-        }
-        // Assign to record
-        p_record.airTemp = new float(temp);
-        break;
-      }
-
-      // If the solar radiations
-      case CSVHeaderID::SOLAR_RADIATION: {
-        // Get the solar radiation
-        int solrad = 0;
-        p_in >> solrad;
-
-        // If lower than 0
-        if (solrad < 0) {
-            std::cout << "Error: Negative Solar Radiation detected!\n";
-        }
-        // Assign to record
-        p_record.solarRad = new int(solrad);
-        break;
-      }
-
-      case CSVHeaderID::DEFAULT:
-      default: {
-        // Ignore
-        break;
-      }
-    }
-}
-
-bool asn2::file::has_content(const std::string& p_str) {
-    // The Stringstream we're using to place back in
-    std::stringstream ss(p_str);
-    // The new string
-    std::string str;
-    ss >> str;
-
-    // If it is bigger than zero
-    return (str.size() > 0);
 }
 
 void asn2::file::load_body(std::istream& p_in, const headerVector& p_header, const headerIDMap& p_hID, WeatherLogType& p_records) {
     // For every single line...
     std::string line;
     std::stringstream ls;
+
+    asn2::weather::WeatherRecord record;
+    std::string cell;
+    std::stringstream cs;
 
     // Keep reading the file
     while (!p_in.eof()) {
@@ -256,8 +269,11 @@ void asn2::file::load_body(std::istream& p_in, const headerVector& p_header, con
             // From the line, create stringstream to parse as a file line
             ls = std::stringstream(line);
 
+            // Reset the record
+            record = asn2::weather::WeatherRecord();
+
             // Parse
-            asn2::file::load_line(ls, p_header, p_hID, p_records);
+            asn2::file::load_line(ls, p_header, p_hID, p_records, cell, cs, record);
         }
     }
 }
@@ -265,12 +281,26 @@ void asn2::file::load_body(std::istream& p_in, const headerVector& p_header, con
 void asn2::file::load(std::istream& p_file, WeatherLogType& p_records) {
     // Read header
     headerVector header = asn2::file::load_header(p_file);
+    if (header.size() == 0) {
+        std::cout << "Error: No Header Line!\n";
+        return;
+    }
 
     // Assign header to map
     headerIDMap IDMap = asn2::file::load_header_map(header);
+    bool exists = false;
+    for (auto it = IDMap.begin(); it != IDMap.end(); it++) {
+        // If it not default
+        if (it->second != CSVHeaderID::DEFAULT) {
+            exists = true;
+            break;
+        }
+    }
 
-    // Read the file line by line
-    asn2::file::load_body(p_file, header, IDMap, p_records);
+    if (exists) {
+        // Read the file line by line
+        asn2::file::load_body(p_file, header, IDMap, p_records);
+    }
 }
 
 void asn2::file::load_all(const std::string& p_location, const std::string& p_manifest, WeatherLogType& p_records) {

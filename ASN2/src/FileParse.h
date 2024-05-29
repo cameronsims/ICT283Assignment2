@@ -5,32 +5,32 @@
 
 #include <iostream>
 
-/// This is an enmu which presides over the column we're using
-enum class CSVHeaderID {
-    /// This is if we have no idea what the column is
-    DEFAULT = 0,
-
-    /// If the column represents date and time (WAST)
-    TIMESTAMP = 1,
-
-    /// If the column represents wind speed (S)
-    WIND_SPEED = 2,
-
-    /// IF the column represents ambient air temperature (T)
-    AMBIENT_TEMPERATURE = 3,
-
-    /// If the column represents solar radiation (SR)
-    SOLAR_RADIATION = 4
-};
-
 /// The header vector
 typedef Vector<std::string> headerVector;
 
-/// The map of the header and the ID, like a hashmap
-typedef Map<std::string, CSVHeaderID> headerIDMap;
-
 namespace asn2 {
 namespace file {
+
+    /// This is an enmu which presides over the column we're using
+    enum class CSVHeaderID {
+        /// This is if we have no idea what the column is
+        DEFAULT = 0,
+
+        /// If the column represents date and time (WAST)
+        TIMESTAMP = 1,
+
+        /// If the column represents wind speed (S)
+        WIND_SPEED = 2,
+
+        /// IF the column represents ambient air temperature (T)
+        AMBIENT_TEMPERATURE = 3,
+
+        /// If the column represents solar radiation (SR)
+        SOLAR_RADIATION = 4
+    };
+
+    /// The map of the header and the ID, like a hashmap
+    typedef Map<std::string, CSVHeaderID> headerIDMap;
 
         /**
          * @author Cameron Sims
@@ -61,8 +61,12 @@ namespace file {
          * @param p_header The header vector we have represents one column per part
          * @param p_hID The header id we're using
          * @param p_records The records wé're saving to
+         *
+         * @param p_cs The cell stream we're using
+         * @param p_cell The cell we're reading from
+         * @param p_record The single record we're using
          */
-    void load_line(std::istream& p_in, const headerVector& p_header, const headerIDMap& p_hID, WeatherLogType& p_records);
+    void load_line(std::istream& p_in, const headerVector& p_header, const headerIDMap& p_hID, WeatherLogType& p_records, std::string& cell, std::stringstream& cs, asn2::weather::WeatherRecord& p_record);
 
         /**
          * @author Cameron Sims
@@ -83,14 +87,11 @@ namespace file {
          *
          * @fn load_cell
          * @param p_in The istream we're reading the header from
-         * @param p_header The header vector we have represents one column per part
          * @param p_hID The header id we're using
          * @param p_record The records wé're adding infomation into
-         * @param i The colomn we're at
-         * @param hasTime if the column we're using has time, if it does it will change it to true
-         * @returns Returns a vector representing a column of data...
+         * @returns Returns a status, this status is if the program spotted a timestamp(2) or spotted a valid column (1), 0 if none.
          */
-    void load_cell(std::istream& p_in, const headerVector& p_header, const headerIDMap& p_hID, asn2::weather::WeatherRecord& p_record, int i, bool& hasTime);
+    int load_cell(std::istream& p_in, CSVHeaderID p_hID, asn2::weather::WeatherRecord& p_record);
 
         /**
          * @author Cameron Sims
